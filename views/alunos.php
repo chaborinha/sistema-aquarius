@@ -39,9 +39,6 @@ $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .table-hover tbody tr:hover {
             background-color: #6c757d; 
         }
-        .btn {
-            border-radius: 20px; 
-        }
     </style>
 </head>
 <body>

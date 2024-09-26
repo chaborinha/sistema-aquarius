@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         $mensagem = "Aluno cadastrado na modalidade.";
+        header("refresh:2; url=cadastrar.php");
     } else {
         $mensagem = "Erro: " . $stmt->errorInfo()[2];     
     }

@@ -21,20 +21,10 @@ $modalidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
         body {
             background-color: #f8f9fa;
         }
-        .table {
-            background-color: #343a40;
-        }
-        .table th, .table td {
-            color: #ffffff;
-            vertical-align: middle;
-        }
         h2 {
             margin-top: 30px;
             margin-bottom: 20px;
             text-align: center;
-        }
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: #495057; 
         }
         .table-hover tbody tr:hover {
             background-color: #6c757d; 
@@ -71,12 +61,12 @@ $modalidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
-                <th style="color: #ffffff;">Nome</th>
-                <th style="color: #ffffff">Valor</th>
+                <th>Nome</th>
+                <th>Valor</th>
                 <th></th>
             </tr>
         </thead>
-        <tbody style="color: #ffffff;">
+        <tbody >
         <?php foreach ($modalidades as $modalidade): ?>
             <tr>
                 <td><?= htmlspecialchars($modalidade['nome']); ?></td>

@@ -2,19 +2,11 @@
 require_once('../data/database.php'); 
 
 $search = isset($_POST['search']) ? $_POST['search'] : '';
-$sql = "SELECT p.id AS id, p.nome AS nome,
-p.idade AS idade, p.peso AS peso, p.altura AS altura,
-p.cor AS cor,
-m.nome as modalidade,
-p.salario AS salario
-FROM professor AS p
-join modalidades AS m
-ON p.id_modalidade = m.id
-WHERE p.nome LIKE :search";
+$sql = "SELECT id, nome, idade, email, data_de_nascimento, altura, ativo, peso, cor, remedio, PcD FROM alunos WHERE ativo IS False AND nome LIKE :search";
 $stmt = $conexao->prepare($sql);
 $stmt->bindValue(':search', '%' . $search . '%'); 
 $stmt->execute();
-$professores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -24,12 +16,11 @@ $professores = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Lista de Professores</title>
+    <title>Lista de Alunos</title>
     <style>
         body {
             background-color: #f8f9fa;
         }
-       
         h2 {
             margin-top: 30px;
             margin-bottom: 20px;
@@ -44,11 +35,10 @@ $professores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container-fluid mt-5">
 <div class="row">
     <div class="col">
-        <h5><i class="fa-solid fa-users me-2"></i>Lista de Professores</h5>
+        <h5><i class="fa-solid fa-users me-2"></i>Lista de Alunos Inativos</h5>
     </div>
     <div class="col text-end d-flex justify-content-end">
         <a href="../index.php" class="btn btn-secondary" style="margin-right: 10px;"><i class="fa-solid fa-arrow-left me-2"></i>Voltar</a>
-        <a href="../functions/query_insert_professor.php" class="btn btn-secondary"><i class="fa-solid fa-plus"></i>Novo professor</a>
     </div>
 </div>
 
@@ -56,44 +46,50 @@ $professores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <form method="post" class="mb-4">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Pesquisar professor pelo nome" value="<?= htmlspecialchars($search); ?>">
+            <input type="text" name="search" class="form-control" placeholder="Pesquisar aluno pelo nome" value="<?= htmlspecialchars($search); ?>">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">Pesquisar</button>
             </div>
         </div>
     </form>
 
-    <?php if(empty($professores)): ?>
-    <p class="my-5 text-center opacity-75">Não existem Professores registados.</p>
+    <?php if(empty($alunos)): ?>
+    <p class="my-5 text-center opacity-75">Não existem alunos inativos.</p>
     <?php else: ?>
 
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
                 <th>Nome</th>
-                <th class="text-center" >Idade</th>
-                <th>Peso</th>
+                <th class="text-center">Idade</th>
+                <th>Email</th>
+                <th class="text-center">Nascimento</th>
                 <th class="text-center">Altura</th>
-                <th class="text-center">Cor</th>
-                <th>Modalidade</th>
-                <th>Sálario</th>
+                <th class="text-center">Ativo</th>
+                <th>Peso</th>
+                <th>Cor</th>
+                <th>Remédios</th>
+                <th class="text-center">PcD</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($professores as $professor): ?>
+        <?php foreach ($alunos as $aluno): ?>
             <tr>
-                <td><?= htmlspecialchars($professor['nome']); ?></td>
-                <td class="text-center"><?= htmlspecialchars($professor['idade']); ?></td>
-                <td><?= htmlspecialchars($professor['peso']); ?></td>
-                <td class="text-center"><?= htmlspecialchars($professor['altura']); ?></td>
-                <td class="text-center"><?= htmlspecialchars($professor['cor']); ?></td>
-                <td><?= htmlspecialchars($professor['modalidade']); ?></td>
-                <td><?= htmlspecialchars($professor['salario']); ?></td>
+                <td><?= htmlspecialchars($aluno['nome']); ?></td>
+                <td class="text-center"><?= htmlspecialchars($aluno['idade']); ?></td>
+                <td><?= htmlspecialchars($aluno['email']); ?></td>
+                <td class="text-center"><?= htmlspecialchars($aluno['data_de_nascimento']); ?></td>
+                <td class="text-center"><?= htmlspecialchars($aluno['altura']); ?></td>
+                <td class="text-center"><?= $aluno['ativo'] ? 'Sim' : 'Não'; ?></td>
+                <td><?= htmlspecialchars($aluno['peso']); ?></td>
+                <td><?= htmlspecialchars($aluno['cor']); ?></td>
+                <td><?= htmlspecialchars($aluno['remedio']); ?></td>
+                <td class="text-center"><?= htmlspecialchars($aluno['PcD']); ?></td>
                 <td class="text-end">
-                    <a href="alterar_professor.php?id=<?= $professor['id'] ?>"><i class="fa-regular fa-pen-to-square me-2"></i>Alterar</a>
+                    <a href="alterar_inativo.php?id=<?= $aluno['id'] ?>"><i class="fa-regular fa-pen-to-square me-2"></i>Alterar</a>
                     <span class="mx-2 opacity-50">|</span>
-                    <a href="deletar_professor.php?id=<?= $professor['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir esse aluno?')"><i class="fa-solid fa-trash-can me-2"></i>Deletar</a>
+                    <a href="deletar_inativo.php?id=<?= $aluno['id'] ?>" onclick="return confirm('Tem certeza que deseja excluir esse aluno?')"><i class="fa-solid fa-trash-can me-2"></i>Deletar</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -102,7 +98,7 @@ $professores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="row">
         <div class="col">
-            <p class="mb-5"><strong>Total de professores: <?= count($professores) ?></strong></p>
+            <p class="mb-5"><strong>Total de alunos inativos: <?= count($alunos) ?></strong></p>
         </div>
     </div>
     <?php endif; ?>

@@ -112,7 +112,7 @@
             </div>
             <div class="card text-white bg-info">
                 <div class="card-body">
-                    <a href="#">Inativos</a>
+                    <a href="views/inativos.php">Inativos</a>
                 </div>
             </div>
         </div>

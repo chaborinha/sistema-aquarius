@@ -2,7 +2,7 @@
 require_once('../data/database.php'); 
 
 $search = isset($_POST['search']) ? $_POST['search'] : '';
-$sql = "SELECT id, nome, idade, email, data_de_nascimento, altura, ativo, peso, cor, remedio, PcD FROM alunos WHERE nome LIKE :search";
+$sql = "SELECT id, nome, idade, email, data_de_nascimento, altura, ativo, peso, cor, remedio, PcD FROM alunos WHERE ativo IS TRUE AND nome LIKE :search";
 $stmt = $conexao->prepare($sql);
 $stmt->bindValue(':search', '%' . $search . '%'); 
 $stmt->execute();
@@ -21,20 +21,10 @@ $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         body {
             background-color: #f8f9fa;
         }
-        .table {
-            background-color: #343a40;
-        }
-        .table th, .table td {
-            color: #ffffff;
-            vertical-align: middle;
-        }
         h2 {
             margin-top: 30px;
             margin-bottom: 20px;
             text-align: center;
-        }
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: #495057; 
         }
         .table-hover tbody tr:hover {
             background-color: #6c757d; 
@@ -71,20 +61,20 @@ $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
-                <th style="color: #ffffff;">Nome</th>
-                <th class="text-center" style="color: #ffffff;">Idade</th>
-                <th style="color: #ffffff;">Email</th>
-                <th class="text-center" style="color: #ffffff;">Nascimento</th>
-                <th class="text-center" style="color: #ffffff;">Altura</th>
-                <th class="text-center" style="color: #ffffff;">Ativo</th>
-                <th style="color: #ffffff;">Peso</th>
-                <th style="color: #ffffff;">Cor</th>
-                <th style="color: #ffffff;">Remédios</th>
-                <th class="text-center" style="color: #ffffff;">PcD</th>
+                <th>Nome</th>
+                <th class="text-center">Idade</th>
+                <th>Email</th>
+                <th class="text-center">Nascimento</th>
+                <th class="text-center">Altura</th>
+                <th class="text-center">Ativo</th>
+                <th>Peso</th>
+                <th>Cor</th>
+                <th>Remédios</th>
+                <th class="text-center">PcD</th>
                 <th></th>
             </tr>
         </thead>
-        <tbody style="color: #ffffff;">
+        <tbody>
         <?php foreach ($alunos as $aluno): ?>
             <tr>
                 <td><?= htmlspecialchars($aluno['nome']); ?></td>

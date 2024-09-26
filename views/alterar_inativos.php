@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Execute a query
     if ($stmt->execute()) {
-        header('Location: alunos.php');
+        header('Location: inativos.php');
         exit();
     } else {
         echo "Erro ao atualizar aluno: " . $stmt->errorInfo()[2];
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="row justify-content-center">
                     <div class="col-10">
 
-                        <h4><strong>Atualizar Aluno</strong></h4>
+                        <h4><strong>Atualizar Aluno Inativo</strong></h4>
 
                         <hr>
 

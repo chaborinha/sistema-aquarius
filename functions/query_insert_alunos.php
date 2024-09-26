@@ -143,7 +143,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 col-sm-12">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" name="email" id="email">
+                                    <input type="text" class="form-control" name="email" id="email">
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <label for="altura" class="form-label">Altura (em metros)</label>

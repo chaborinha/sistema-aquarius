@@ -1,11 +1,51 @@
 <?php 
 require_once '../data/database.php';
 
-$query_modalidade = "SELECT id, nome FROM modalidades";
-$stmt = $conexao->prepare($query_modalidade);
-$stmt->execute();
-$modalidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if(empty($_GET['id'])){
+    echo 'Nenhum professor foi fornecido';
+    exit();
+}
 
+$id_professor = $_GET['id'];
+
+$query_select = "SELECT nome, idade, peso, altura, cor, salario FROM professor WHERE id = ?";
+$stmt = $conexao->prepare($query_select);
+$stmt->bindParam(1, $id_professor);
+$stmt->execute();
+$valores_professor = $stmt->fetch(PDO::FETCH_ASSOC);
+
+?>
+
+<?php 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+
+$nome = $_POST['nome'];
+$idade = $_POST['idade'];
+$peso = $_POST['peso'];
+$altura = $_POST['altura'];
+$cor = $_POST['cor'];
+$salario = $_POST['salario'];
+
+$query_update = "UPDATE professor SET nome = ?, idade = ?, peso = ?, altura = ?, cor = ?, salario = ? WHERE id = ?";
+$stmt = $conexao->prepare($query_update);
+$stmt->bindParam(1, $nome);
+$stmt->bindParam(2, $idade);
+$stmt->bindParam(3, $peso);
+$stmt->bindParam(4, $altura);
+$stmt->bindParam(5, $cor);
+$stmt->bindParam(6, $salario);
+$stmt->bindParam(7, $id_professor);
+
+if($stmt->execute()){
+    header('location: professores.php');
+    exit();
+}else{
+    echo "Erro ao alterar modalidade: " . $stmt->errorInfo()[2]; 
+}
+
+}
 ?>
 
 
@@ -37,41 +77,32 @@ $modalidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             <div class="mb-3">
                                 <label for="nome" class="form-label">Nome</label>
-                                <input type="text" name="nome" id="nome" class="form-control">
+                                <input type="text" name="nome" id="nome" value="<?= $valores_professor['nome'] ?>" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="idade" class="form-label">Idade</label>
-                                <input type="number" name="idade" id="idade" class="form-control">
+                                <input type="number" name="idade" id="idade" value="<?= $valores_professor['idade'] ?>" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="peso" class="form-label">Peso</label>
-                                <input type="number" name="peso" id="peso" class="form-control">
+                                <input type="number" name="peso" id="peso" value="<?= $valores_professor['peso'] ?>" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="altura" class="form-label">Altura</label>
-                                <input type="number" step="0.01" name="altura" id="altura" class="form-control">
+                                <input type="number" step="0.01" name="altura" id="altura" value="<?= $valores_professor['altura'] ?>" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="cor" class="form-label">Cor</label>
-                                <input type="text" name="cor" id="cor" class="form-control">
-                            </div>
-
-                            <div class="mb-3">
-                                <select name="modalidade" class="form-control  mx-auto"> 
-                                    <option value="">Selecione uma modalidade</option>
-                                    <?php foreach ($modalidades as $row): ?>
-                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['nome']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <input type="text" name="cor" id="cor" value="<?= $valores_professor['cor'] ?>" class="form-control">
                             </div>
 
                             <div class="mb-3">
                                 <label for="salario" class="form-label">Salario</label>
-                                <input type="number" step="0.001" name="salario" id="salario" class="form-control">
+                                <input type="number" step="0.001" name="salario" id="salario" value="<?= $valores_professor['salario'] ?>" class="form-control">
                             </div>
 
                             <div class="mb-3 text-center">

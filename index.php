@@ -77,8 +77,8 @@
     <div id="sidebar-nav" class="text-sm-start min-vh-100">
         <h4 class="text-light">Cadastrar</h4>
         <a href="functions/query_insert_alunos.php" style="text-decoration: none;" class="sidebar-link">Aluno</a>
-        <a href="#" style="text-decoration: none;" class="sidebar-link">Professor</a>
-        <a href="#" style="text-decoration: none;" class="sidebar-link">Modalidade</a>
+        <a href="functions/query_insert_professor.php" style="text-decoration: none;" class="sidebar-link">Professor</a>
+        <a href="functions/query_insert_modalidade.php" style="text-decoration: none;" class="sidebar-link">Modalidade</a>
     </div>
 </div>
 
@@ -97,12 +97,12 @@
             </div>
             <div class="card text-white bg-success">
                 <div class="card-body">
-                    <a href="#">Professores</a>
+                    <a href="views/professores.php">Professores</a>
                 </div>
             </div>
             <div class="card text-white bg-danger">
                 <div class="card-body">
-                    <a href="#">Modalidades</a>
+                    <a href="views/modalidades.php">Modalidades</a>
                 </div>
             </div>
             <div class="card text-white bg-warning">

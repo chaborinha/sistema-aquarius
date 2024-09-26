@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once '../data/database.php';
 
 $query_modalidade = "SELECT id, nome FROM modalidades";
@@ -7,42 +7,6 @@ $stmt->execute();
 $modalidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-
-<?php 
-
-if($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    $nome = $_POST['nome'];
-    $idade = $_POST['idade'];
-    $peso = $_POST['peso'];
-    $altura = $_POST['altura'];
-    $cor = $_POST['cor'];
-    $modalidade_aula = $_POST['modalidade'];
-    $salario = $_POST['salario'];
-
-    $query_insert = "INSERT INTO professor(nome, idade, peso, altura, cor, id_modalidade, salario)
-    VALUES(?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conexao->prepare($query_insert);
-    $stmt->bindParam(1, $nome);
-    $stmt->bindParam(2, $idade);
-    $stmt->bindParam(3, $peso);
-    $stmt->bindParam(4, $altura);
-    $stmt->bindParam(5, $cor);
-    $stmt->bindParam(6, $modalidade_aula);
-    $stmt->bindParam(7, $salario);
-    if($stmt->execute()){
-        header("Location: ../views/professores.php");
-        exit();
-    }else{
-        echo "Erro ao cadastrar professor: " . $stmt->errorInfo()[2]; 
-    }
-
-}
-
-?>
-
-
-
 
 
 <!DOCTYPE html>
@@ -57,7 +21,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     <title>Cadastro Professor</title>
 </head>
 <body>
-
 <div class="container-fluid mt-5 mb-5">
     <div class="row justify-content-center pb-5">
         <div class="col-lg-8 col-md-10">
@@ -124,12 +87,3 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         </div>
     </div>
 </div>
-
-   
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-</body>
-</html>

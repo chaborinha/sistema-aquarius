@@ -24,18 +24,33 @@ $modalidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $modalidade_id = $_POST['id'];
-    
-    $sql_insert = "INSERT INTO modalidades_aluno (id_aluno, id_modalidade) VALUES (?, ?)";
-    $stmt = $conexao->prepare($sql_insert);
-    $stmt->bindParam(1, $id_aluno);
-    $stmt->bindParam(2, $modalidade_id);
 
-    if ($stmt->execute()) {
-        $mensagem = "Aluno cadastrado na modalidade.";
-        header("refresh:2; url=cadastrar.php");
-    } else {
-        $mensagem = "Erro: " . $stmt->errorInfo()[2];     
+    $sql_check = "SELECT COUNT(*) AS count FROM modalidades_aluno WHERE id_aluno= ? AND id_modalidade = ?";
+    $stmt_check = $conexao->prepare($sql_check);
+    $stmt_check->bindParam(1, $id_aluno);
+    $stmt_check->bindParam(2, $modalidade_id);
+    $stmt_check->execute();
+    $results = $stmt_check->fetch(PDO::FETCH_ASSOC);
+
+    if($results['count'] > 0){
+        $mensagem = "Aluno já está cadastrado nesta modalidade";
     }
+    else{
+        $sql_insert = "INSERT INTO modalidades_aluno (id_aluno, id_modalidade) VALUES (?, ?)";
+        $stmt = $conexao->prepare($sql_insert);
+        $stmt->bindParam(1, $id_aluno);
+        $stmt->bindParam(2, $modalidade_id);
+    
+        if ($stmt->execute()) {
+            $mensagem = "Aluno cadastrado na modalidade.";
+            header("refresh:2; url=cadastrar.php");
+            //exit();
+        } else {
+            $mensagem = "Erro: " . $stmt->errorInfo()[2];     
+        }
+    }
+    
+   
 }
 ?>
 

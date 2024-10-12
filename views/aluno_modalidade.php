@@ -9,7 +9,19 @@ $modalidades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $modalidade_id = $_POST['modalidade'];
     $idade = $_POST['idade'];
-    $idade_aluno = (int)$idade;
+    
+    // Definindo a condição da idade
+    if ($idade === 'menor_9') {
+        $idade_condition = 'a.idade <= 9';
+    } elseif ($idade === '9_15') {
+        $idade_condition = 'a.idade > 9 AND a.idade <= 15';
+    } elseif ($idade === '15_20') {
+        $idade_condition = 'a.idade > 15 AND a.idade <= 20';
+    } elseif ($idade === 'maior_40') {
+        $idade_condition = 'a.idade > 40';
+    } else {
+        $idade_condition = '1=1'; // Sem filtro de idade
+    }
 
     $query_modalidade_aluno = "SELECT
             a.nome AS aluno,
@@ -25,15 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         WHERE 
             a.ativo IS TRUE
             AND m.id = ?
-            AND a.idade <= ?
+            AND $idade_condition
         ORDER BY 
             a.nome";
 
     $stmt = $conexao->prepare($query_modalidade_aluno);
     $stmt->bindParam(1, $modalidade_id);
-    $stmt->bindParam(2, $idade_aluno);
     $stmt->execute();
-    $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC); // Aqui você atribui os alunos
 }
 ?>
 
@@ -109,10 +120,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </select>
 
                 <select name="idade" class="form-control w-50 mx-auto mt-2"> 
-                    <option value="">Filtrar Idade</option>                   
-                    <option value="150">Todas</option>
-                    <option value="15">Menor ou igual que 15</option>
-                    <option value="30"> Menor ou igual que 30</option>
+                    <option value="">Filtrar Idade</option>
+                    <option value="menor_9">Menor que 9</option>
+                    <option value="9_15">Entre 9 e 15</option>
+                    <option value="15_20">Entre 15 e 20</option>
+                    <option value="maior_40">Maiores que 40</option>
+                    <option value="todas">Todas</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Visualizar</button>

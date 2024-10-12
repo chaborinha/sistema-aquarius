@@ -82,29 +82,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            background-color: #f8f9fa; /* Cor de fundo suave */
+            background-color: #f8f9fa; 
         }
         .card {
-            background-color: #ffffff; /* Cor do cartão */
+            background-color: #ffffff; 
             border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
         }
         h4 {
-            color: #007bff; /* Cor do título */
+            color: #007bff; 
         }
         .btn-primary {
-            background-color: #007bff; /* Cor do botão "Salvar" */
+            background-color: #007bff; 
             border: none;
         }
         .btn-primary:hover {
-            background-color: #0056b3; /* Cor do botão "Salvar" ao passar o mouse */
+            background-color: #0056b3; 
         }
         .btn-secondary {
-            background-color: #6c757d; /* Cor do botão "Cancelar" */
+            background-color: #6c757d; 
             border: none;
         }
         .btn-secondary:hover {
-            background-color: #5a6268; /* Cor do botão "Cancelar" ao passar o mouse */
+            background-color: #5a6268; 
         }
     </style>
 </head>

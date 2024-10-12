@@ -44,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                 <div class="row justify-content-center">
                     <div class="col-10">
 
-                        <h4><strong>Cadastro de Modalidade</strong></h4>
+                        <h4 style="color: #007bff; "><strong>Cadastro de Modalidade</strong></h4>
 
                         <hr>
 
